@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Semester Mark Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #000;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 5px; text-align: center; border: 1px solid #000; }
+        input { width: 60px; }
+        button { margin-top: 20px; padding: 10px; font-size: 16px; width: 100%; }
+        .result { margin-top: 20px; font-weight: bold; font-size: 18px; text-align: center; }
+    </style>
+</head>
+<body>
+    <h2>Semester Mark Calculator</h2>
+    <table>
+        <tr>
+            <th>Module</th>
+            <th>CC</th>
+            <th>Exam</th>
+            <th>MTP</th>
+            <th>Coef</th>
+        </tr>
+        <tr><td>Analysis</td><td><input id="analysis_cc"></td><td><input id="analysis_exam"></td><td>-</td><td>6</td></tr>
+        <tr><td>Physics</td><td><input id="physics_cc"></td><td><input id="physics_exam"></td><td><input id="physics_mtp"></td><td>5</td></tr>
+        <tr><td>Chemistry</td><td><input id="chem_cc"></td><td><input id="chem_exam"></td><td><input id="chem_mtp"></td><td>5</td></tr>
+        <tr><td>Info</td><td><input id="info_cc"></td><td><input id="info_exam"></td><td>-</td><td>3</td></tr>
+        <tr><td>Algebra</td><td><input id="algebra_cc"></td><td><input id="algebra_exam"></td><td>-</td><td>3</td></tr>
+        <tr><td>Stats</td><td><input id="stats_cc"></td><td><input id="stats_exam"></td><td>-</td><td>3</td></tr>
+        <tr><td>Economy</td><td><input id="economy_cc"></td><td><input id="economy_exam"></td><td>-</td><td>1</td></tr>
+        <tr><td>English</td><td><input id="english_cc"></td><td><input id="english_exam"></td><td>-</td><td>1</td></tr>
+        <tr><td>French</td><td><input id="french_cc"></td><td><input id="french_exam"></td><td>-</td><td>1</td></tr>
+        <tr><td>Human Engineering</td><td><input id="he_cc"></td><td><input id="he_exam"></td><td>-</td><td>1</td></tr>
+        <tr><td>Technical Drawing</td><td>-</td><td><input id="td_exam"></td><td><input id="td_mtp"></td><td>1</td></tr>
+    </table>
+    <button onclick="calculateSemester()">Calculate Semester Mark</button>
+    <div class="result" id="result"></div>
+
+    <script>
+        function calculateSemester() {
+            let total = 0;
+
+            function moduleMark(cc, exam, coef) { return ((cc*0.4 + exam*0.6) * coef); }
+            function moduleMarkMTP(mtp, cc, exam, coef) { return ((mtp*0.3 + cc*0.3 + exam*0.4) * coef); }
+            function moduleMarkTD(mtp, exam, coef) { return ((mtp*0.6 + exam*0.4) * coef); }
+
+            total += moduleMark(parseFloat(document.getElementById("analysis_cc").value) || 0,
+                                parseFloat(document.getElementById("analysis_exam").value) || 0, 6);
+            total += moduleMarkMTP(parseFloat(document.getElementById("physics_mtp").value) || 0,
+                                   parseFloat(document.getElementById("physics_cc").value) || 0,
+                                   parseFloat(document.getElementById("physics_exam").value) || 0, 5);
+            total += moduleMarkMTP(parseFloat(document.getElementById("chem_mtp").value) || 0,
+                                   parseFloat(document.getElementById("chem_cc").value) || 0,
+                                   parseFloat(document.getElementById("chem_exam").value) || 0, 5);
+            total += moduleMark(parseFloat(document.getElementById("info_cc").value) || 0,
+                                parseFloat(document.getElementById("info_exam").value) || 0, 3);
+            total += moduleMark(parseFloat(document.getElementById("algebra_cc").value) || 0,
+                                parseFloat(document.getElementById("algebra_exam").value) || 0, 3);
+            total += moduleMark(parseFloat(document.getElementById("stats_cc").value) || 0,
+                                parseFloat(document.getElementById("stats_exam").value) || 0, 3);
+            total += moduleMark(parseFloat(document.getElementById("economy_cc").value) || 0,
+                                parseFloat(document.getElementById("economy_exam").value) || 0, 1);
+            total += moduleMark(parseFloat(document.getElementById("english_cc").value) || 0,
+                                parseFloat(document.getElementById("english_exam").value) || 0, 1);
+            total += moduleMark(parseFloat(document.getElementById("french_cc").value) || 0,
+                                parseFloat(document.getElementById("french_exam").value) || 0, 1);
+            total += moduleMark(parseFloat(document.getElementById("he_cc").value) || 0,
+                                parseFloat(document.getElementById("he_exam").value) || 0, 1);
+            total += moduleMarkTD(parseFloat(document.getElementById("td_mtp").value) || 0,
+                                  parseFloat(document.getElementById("td_exam").value) || 0, 1);
+
+            let semesterMark = total / 30;
+            document.getElementById("result").innerText = "Your Semester Mark: " + semesterMark.toFixed(2);
+        }
+    </script>
+</body>
+</html>
